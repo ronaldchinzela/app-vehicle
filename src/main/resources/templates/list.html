@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+
+<div>
+  <h3 th:text="${title}"></h3>
+
+  <a th:href="@{/vehicles/form}" th:text="'crear vehículo (+)'"></a>
+  <div th:text="'No hay vehículos en el sistema!'" th:if="${#lists.isEmpty(vehicles)}"></div>
+
+  <table th:if="${not #lists.isEmpty(vehicles)}">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>MARCA</th>
+      <th>MODELO</th>
+      <th>COLOR</th>
+      <th>PRECIO</th>
+      <th>STOCK</th>
+      <th>FECHA DE CREACIÓN</th>
+      <th>EDITAR</th>
+      <th>ELIMINAR</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vehicle: ${vehicles}">
+      <td th:text="${vehicle.id}"></td>
+      <td th:text="${vehicle.marca}"></td>
+      <td th:text="${vehicle.modelo}"></td>
+      <td th:text="${vehicle.color}"></td>
+      <td th:text="${vehicle.precio}"></td>
+      <td th:text="${vehicle.stock}"></td>
+      <td th:text="${vehicle.createdAt}"></td>
+      <td><a th:href="@{/vehicles/form/} + ${vehicle.id}">editar</a></td>
+      <td><a th:href="@{/vehicles/delete/} + ${vehicle.id}" onclick="return confirm('Está seguro que desea eliminar?')">eliminar</a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+
+<div>
+    <h4 th:text="${title}"></h4>
+    <a th:href="@{/vehicles}" th:text="'volver'"></a>
+
+    <form th:action="@{/vehicles}" method="post" th:object="${vehicle}">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{createdAt}">
+        <div>
+            <label for="marca">Marca</label>
+            <div>
+                <input type="text" th:field="*{marca}" id="marca"/>
+            </div>
+        </div>
+
+        <div>
+            <label th:for="modelo">Modelo</label>
+            <div>
+                <input type="text" th:field="*{modelo}" id="modelo"/>
+            </div>
+        </div>
+
+        <div>
+            <label th:for="color">Color</label>
+            <div>
+                <input type="text" th:field="*{color}" id="color"/>
+            </div>
+        </div>
+
+        <div>
+            <label th:for="precio">Precio</label>
+            <div>
+                <input type="text" th:field="*{precio}" id="precio"/>
+            </div>
+        </div>
+
+        <div>
+            <label th:for="stock">Stock</label>
+            <div>
+                <input type="text" th:field="*{stock}" id="stock"/>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" th:value="${(vehicle.id != null && vehicle.id > 0)? 'Editar': 'Crear'}">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
