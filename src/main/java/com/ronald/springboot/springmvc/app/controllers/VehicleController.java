@@ -2,28 +2,25 @@ package com.ronald.springboot.springmvc.app.controllers;
 
 import com.ronald.springboot.springmvc.app.models.Vehicle;
 import com.ronald.springboot.springmvc.app.services.VehicleService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/vehicles")
+@SessionAttributes({"vehicle"})
 public class VehicleController {
 
     private final VehicleService vehicleService;
 
     public VehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
-    }
-
-    @GetMapping("/view")
-    public String view(Model model){
-        model.addAttribute("title", "VEHÍCULOS");
-        model.addAttribute("message", "Esta es una aplicación CRUD de ejemplo para el despliegue en la Nube de Azure!");
-        return "view";
     }
     
     @GetMapping
@@ -57,17 +54,24 @@ public class VehicleController {
     }
 
     @PostMapping
-    public String form(Vehicle vehicle, Model model, RedirectAttributes redirectAttributes){
+    public String form(@Valid Vehicle vehicle, BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status){
+
+        if (result.hasErrors()) {
+            model.addAttribute("title", "Validando Formulario");
+            return "form";
+        }
+
         String message = (vehicle.getId() != null && vehicle.getId() > 0) ? "El vehículo "
                 + vehicle.getMarca() + " "
                 + vehicle.getModelo()
-                + " se ha actualizado con éxito!." : "El vehículo "
+                + " se ha actualizado con éxito!" : "El vehículo "
                 + vehicle.getMarca() + " "
                 + vehicle.getModelo()
-                + " se ha creado con éxito!.";
+                + " se ha creado con éxito!";
 
         vehicleService.save(vehicle);
-        redirectAttributes.addFlashAttribute("message", message);
+        status.setComplete();
+        redirectAttributes.addFlashAttribute("success", message);
         return "redirect:/vehicles";
     }
     
@@ -78,7 +82,7 @@ public class VehicleController {
             redirectAttributes.addFlashAttribute("success", "El vehículo " 
                     + optionalVehicle.get().getMarca() + " "
                     + optionalVehicle.get().getModelo()
-                    + " ha sido eliminado con éxito!."); 
+                    + " ha sido eliminado con éxito!");
             vehicleService.delete(id);
             return "redirect:/vehicles";
         }

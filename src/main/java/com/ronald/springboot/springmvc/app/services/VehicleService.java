@@ -9,7 +9,7 @@ public interface VehicleService {
 
     List<Vehicle> findAll();
     Optional<Vehicle> findById(Long id);
-    Vehicle save(Vehicle vehicle);
+    void save(Vehicle vehicle);
     void delete(Long id);
 
 }

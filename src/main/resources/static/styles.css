@@ -1,0 +1,44 @@
+.alert {
+    transition: opacity 1s ease, background-color 1s ease;
+}
+
+html, body {
+    height: 100%;
+}
+
+.content {
+    min-height: calc(100vh - 3cm);
+    padding-bottom: 2cm;
+}
+
+.footer {
+    height: 2cm;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 2px solid #ccc;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-text {
+    text-align: center;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.footer-text p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.footer-text strong {
+    font-weight: bold;
+    color: #007bff;
+}
+
+
+
+
