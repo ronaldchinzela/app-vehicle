@@ -10,7 +10,7 @@
 <body>
 
 <div class="container my-4">
-    <div class="card p-4">
+    <div class="card p-4 col-md-9 mx-auto">
 
         <div class="highlighted-text">
             <h4 th:text="${(vehicle.id != null && vehicle.id > 0) ? 'Editar Vehículo' : 'Crear Vehículo'}"></h4>
@@ -25,7 +25,7 @@
         <div class="row mb-3">
             <label for="marca" class="col-sm-1 col-form-label">Marca</label>
             <div class="col-sm-5">
-                <input type="text" th:field="*{marca}" id="marca" class="form-control"/>
+            <input type="text" th:field="*{marca}" id="marca" class="form-control"/>
                 <small th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="form-text text-danger"></small>
             </div>
         </div>
