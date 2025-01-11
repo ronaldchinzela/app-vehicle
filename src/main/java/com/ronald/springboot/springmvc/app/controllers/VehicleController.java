@@ -82,12 +82,12 @@ public class VehicleController {
         redirectAttributes.addFlashAttribute("success", message);
         return "redirect:/vehicles";
     }
-    
+
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
         Optional<Vehicle> optionalVehicle = vehicleService.findById(id);
         if(optionalVehicle.isPresent()){
-            redirectAttributes.addFlashAttribute("success", "El vehículo " 
+            redirectAttributes.addFlashAttribute("success", "El vehículo "
                     + optionalVehicle.get().getMarca() + " "
                     + optionalVehicle.get().getModelo()
                     + " ha sido eliminado con éxito!");
