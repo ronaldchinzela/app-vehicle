@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
 
 import java.util.Optional;
 
@@ -22,11 +23,18 @@ public class VehicleController {
     public VehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
-    
+
     @GetMapping
-    public String list(Model model){
+    public String list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Model model) {
+        Page<Vehicle> vehiclesPage = vehicleService.findAllPaginated(page, size);
         model.addAttribute("title", "Listado de vehículos");
-        model.addAttribute("vehicles", vehicleService.findAll());
+        model.addAttribute("vehicles", vehiclesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", vehiclesPage.getTotalPages());
+        model.addAttribute("totalElements", vehiclesPage.getTotalElements());
         return "list";
     }
     
