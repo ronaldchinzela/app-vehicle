@@ -35,6 +35,7 @@ public class VehicleController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", vehiclesPage.getTotalPages());
         model.addAttribute("totalElements", vehiclesPage.getTotalElements());
+
         return "list";
     }
     

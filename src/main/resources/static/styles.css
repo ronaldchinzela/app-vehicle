@@ -10,6 +10,10 @@ html, body {
     flex-direction: column;
 }
 
+.custom-body {
+    background-color: #f4fafd;
+}
+
 .content {
     flex-grow: 1;
     padding-bottom: 2rem;
@@ -40,6 +44,30 @@ html, body {
     font-weight: bold;
     color: #007bff;
 }
+
+.custom-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s, color 0.3s;
+}
+
+.custom-title:hover {
+    color: #ffa500;
+    transform: scale(1.1);
+}
+
+.highlighted-text {
+    padding: 5px;
+}
+
+.card {
+    background-color: #f0fafd;
+}
+
+
 
 
 

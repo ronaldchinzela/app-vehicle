@@ -42,3 +42,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+//MANEJO DE LA PAGINACIÓN CON AJAX
+function loadPage(page) {
+    var size = 15;
+    $.ajax({
+        url: '/vehicles?page=' + page + '&size=' + size,
+        type: 'GET',
+        success: function(response) {
+            $('#vehicle-table').html($(response).find('#vehicle-table').html());
+            $('.pagination').html($(response).find('.pagination').html());
+        },
+        error: function() {
+            alert('Error cargando la página');
+        }
+    });
+}
+
+
+
+
