@@ -45,7 +45,8 @@
   <div class="container my-4">
     <h3 th:text="${title}"></h3>
 
-    <a th:href="@{/vehicles/form}" th:text="'crear vehículo'" class="btn btn-secondary"></a>
+    <a th:href="@{/vehicles/form}" class="btn btn-secondary">
+      <i class="fas fa-car"></i> Crear Vehículo</a>
     <div th:text="'No hay vehículos en el sistema!'" th:if="${#lists.isEmpty(vehicles)}"></div>
 
     <div id="vehicle-table">
