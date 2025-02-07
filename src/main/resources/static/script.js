@@ -26,37 +26,65 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-//FORMATO PARA LOS PRECIOS EN TODA LA TABLA
+// FUNCIÓN PARA DAR FORMATO A LOS PRECIOS CON EL SÍMBOLO US$
 function formatPrice(price) {
+    price = parseFloat(price);
+    if (isNaN(price)) return 'US$ 0.00';
     return 'US$ ' + price.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const priceCells = document.querySelectorAll('td[data-price]');
-    priceCells.forEach(function(cell) {
-        let price = parseFloat(cell.textContent.replace(/[^\d.-]/g, ''));
-        cell.textContent = formatPrice(price);
+// FUNCIÓN PARA FORMATEAR TODOS LOS PRECIOS EN LA TABLA
+function formatAllPrices() {
+    $('td[data-price]').each(function () {
+        let price = parseFloat($(this).text().replace(/[^\d.-]/g, ''));
+        $(this).text(formatPrice(price));
     });
-});
+}
 
-//MANEJO DE LA PAGINACIÓN CON AJAX
+// FUNCIÓN PARA CARGAR UNA NUEVA PÁGINA CON AJAX Y FORMATEAR LOS PRECIOS
 function loadPage(page) {
-    var size = 15;
+    let size = 15;
     $.ajax({
         url: '/vehicles?page=' + page + '&size=' + size,
         type: 'GET',
         success: function(response) {
             $('#vehicle-table').html($(response).find('#vehicle-table').html());
             $('.pagination').html($(response).find('.pagination').html());
+            formatAllPrices();
         },
         error: function() {
             alert('Error cargando la página');
         }
     });
 }
+
+// EJECUTAR EL FORMATO AL CARGAR LA PÁGINA POR PRIMERA VEZ
+$(document).ready(function() {
+    formatAllPrices();
+
+    $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        let page = $(this).data('page');
+
+        if (typeof page === "undefined") {
+            console.error('Error: data-page no definido en el enlace de paginación', this);
+            return;
+        }
+        loadPage(page);
+    });
+});
+
+//EJECUTAR MENSAJE ESTRUCTURADO EN CONFIRM AL MOMENTO DE ELIMINAR UNB VEHÍCULO:
+function confirmDelete(marca, modelo, id) {
+    return confirm(`Está seguro que desea eliminar el vehículo ${marca} ${modelo} con ID ${id}?`);
+}
+
+
+
+
 
 
 

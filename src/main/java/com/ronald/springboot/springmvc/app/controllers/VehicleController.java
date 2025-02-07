@@ -85,19 +85,23 @@ public class VehicleController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Optional<Vehicle> optionalVehicle = vehicleService.findById(id);
-        if(optionalVehicle.isPresent()){
-            redirectAttributes.addFlashAttribute("success", "El vehículo "
-                    + optionalVehicle.get().getMarca() + " "
-                    + optionalVehicle.get().getModelo()
-                    + " ha sido eliminado con éxito!");
+
+        if (optionalVehicle.isPresent()) {
+            Vehicle vehicle = optionalVehicle.get();
+            redirectAttributes.addFlashAttribute("success", "El vehículo <b>"
+                    + vehicle.getMarca() + " "
+                    + vehicle.getModelo()
+                    + "</b> con ID <b>" + id
+                    + "</b> ha sido eliminado con éxito!");
             vehicleService.delete(id);
-            return "redirect:/vehicles";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Error: el vehículo con ID <b>"
+                    + id + "</b> no existe en el sistema!");
         }
-        redirectAttributes.addFlashAttribute("error", "Error el vehículo con el id "
-                + id + " no existe en el sistema!");
         return "redirect:/vehicles";
     }
+
 
 }

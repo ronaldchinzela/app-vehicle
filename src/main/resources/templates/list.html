@@ -39,7 +39,7 @@
 </nav>
 
 <div class="alert alert-danger" id="error-alert" th:if="${error != null}" th:text="${error}"></div>
-<div class="alert alert-success" id="success-alert" th:if="${success != null}" th:text="${success}"></div>
+<div class="alert alert-success" id="success-alert" th:if="${success != null}" th:utext="${success}"></div>
 
 <div class="content flex-grow-1">
   <div class="container my-4">
@@ -49,6 +49,7 @@
       <i class="fas fa-car"></i> Crear Vehículo</a>
     <div th:text="'No hay vehículos en el sistema!'" th:if="${#lists.isEmpty(vehicles)}"></div>
 
+    <div class="table-container">
     <div id="vehicle-table">
       <table class="table table-hover table-striped" th:if="${not #lists.isEmpty(vehicles)}">
         <thead>
@@ -75,8 +76,13 @@
           <td th:text="${vehicle.createdAt}"></td>
           <td><a class="btn btn-sm btn-primary" th:href="@{/vehicles/form/} + ${vehicle.id}">
             <i class="fas fa-edit"></i> Editar</a></td>
-          <td><a class="btn btn-sm btn-danger" th:href="@{/vehicles/delete/} + ${vehicle.id}" onclick="return confirm('Está seguro que desea eliminar?')">
-            <i class="fas fa-trash-alt"></i> Eliminar</a></td>
+          <td>
+            <a class="btn btn-sm btn-danger"
+               th:href="@{/vehicles/delete/} + ${vehicle.id}"
+               th:attr="onclick=|return confirmDelete('${vehicle.marca}', '${vehicle.modelo}', ${vehicle.id})|">
+              <i class="fas fa-trash-alt"></i> Eliminar
+            </a>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -86,30 +92,30 @@
       <ul class="pagination justify-content-center">
 
         <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
-          <a class="page-link" href="#" th:onclick="'loadPage(0)'">Inicio</a>
+          <a class="page-link" href="#" th:attr="data-page=0">Inicio</a>
         </li>
 
         <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
-          <a class="page-link" href="#" th:onclick="'loadPage(' + ${currentPage - 1} + ')'">Anterior</a>
+          <a class="page-link" href="#" th:attr="data-page=${currentPage - 1}">Anterior</a>
         </li>
 
         <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
             th:classappend="${i == currentPage} ? 'active' : ''">
-          <a class="page-link" href="#" th:onclick="'loadPage(' + ${i} + ')'" th:text="${i + 1}"></a>
+          <a class="page-link" href="#" th:attr="data-page=${i}" th:text="${i + 1}"></a>
         </li>
 
         <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
-          <a class="page-link" href="#" th:onclick="'loadPage(' + ${currentPage + 1} + ')'">Siguiente</a>
+          <a class="page-link" href="#" th:attr="data-page=${currentPage + 1}">Siguiente</a>
         </li>
 
         <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
-          <a class="page-link" href="#" th:onclick="'loadPage(' + ${totalPages - 1} + ')'">Última</a>
+          <a class="page-link" href="#" th:attr="data-page=${totalPages - 1}">Última</a>
         </li>
-
       </ul>
     </nav>
 
   </div>
+</div>
 </div>
 
 <div class="footer mt-4 py-4 bg-dark text-white">
