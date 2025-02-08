@@ -63,23 +63,20 @@ public class VehicleController {
     }
 
     @PostMapping
-    public String form(@Valid Vehicle vehicle, BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status){
+    public String form(@Valid Vehicle vehicle, BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status) {
 
         if (result.hasErrors()) {
             model.addAttribute("title", "Validando Formulario");
             return "form";
         }
 
-        String message = (vehicle.getId() != null && vehicle.getId() > 0) ? "El vehículo "
-                + vehicle.getMarca() + " "
-                + vehicle.getModelo()
-                + " se ha actualizado con éxito!" : "El vehículo "
-                + vehicle.getMarca() + " "
-                + vehicle.getModelo()
-                + " se ha creado con éxito!";
-
         vehicleService.save(vehicle);
         status.setComplete();
+
+        String message = (vehicle.getId() != null && vehicle.getId() > 0)
+                ? "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> con ID <b>" + vehicle.getId() + "</b> se ha actualizado con éxito!"
+                : "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> se ha creado con éxito!";
+
         redirectAttributes.addFlashAttribute("success", message);
         return "redirect:/vehicles";
     }
@@ -102,6 +99,5 @@ public class VehicleController {
         }
         return "redirect:/vehicles";
     }
-
 
 }
