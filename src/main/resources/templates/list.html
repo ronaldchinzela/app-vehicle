@@ -73,7 +73,7 @@
           <td th:text="${vehicle.color}"></td>
           <td th:text="${vehicle.precio}" data-price></td>
           <td th:text="${vehicle.stock}"></td>
-          <td th:text="${vehicle.createdAt}"></td>
+          <td th:text="${#temporals.format(vehicle.createdAt, 'dd-MM-yyyy hh:mm a')}"></td>
 
           <td><a class="btn btn-sm btn-primary" th:href="@{/vehicles/form/{id}(id=${vehicle.id}, page=${currentPage})}">
             <i class="fas fa-edit"></i> Editar</a>
