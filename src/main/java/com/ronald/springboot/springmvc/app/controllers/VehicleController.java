@@ -49,22 +49,27 @@ public class VehicleController {
 
     //Editar vehículo
     @GetMapping("/form/{id}")
-    public String form(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+    public String form(@PathVariable Long id,
+                       @RequestParam(defaultValue = "0") int page,
+                       Model model,
+                       RedirectAttributes redirectAttributes) {
         Optional<Vehicle> optionalVehicle = vehicleService.findById(id);
-        if(optionalVehicle.isPresent()){
+        if(optionalVehicle.isPresent()) {
             model.addAttribute("vehicle", optionalVehicle.get());
             model.addAttribute("title", "Editar Vehículo");
+            model.addAttribute("currentPage", page);
             return "form";
-        }else {
-            redirectAttributes.addFlashAttribute("error", "El vehículo con id " 
-                    + id + " no existe en la base de datos!.");
-            return "redirect:/vehicles";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "El vehículo con id " + id + " no existe en la base de datos!.");
+            return "redirect:/vehicles?page=" + page;
         }
     }
 
     @PostMapping
-    public String form(@Valid Vehicle vehicle, BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status) {
-
+    public String form(@Valid Vehicle vehicle, BindingResult result,
+                       @RequestParam(defaultValue = "0") int page,
+                       Model model, RedirectAttributes redirectAttributes, SessionStatus status) {
+        System.out.println("Página recibida: " + page);
         if (result.hasErrors()) {
             model.addAttribute("title", "Validando Formulario");
             return "form";
@@ -78,11 +83,13 @@ public class VehicleController {
                 : "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> se ha creado con éxito!";
 
         redirectAttributes.addFlashAttribute("success", message);
-        return "redirect:/vehicles";
+        return "redirect:/vehicles?page=" + page;
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable Long id,
+                         @RequestParam(defaultValue = "0") int page,
+                         RedirectAttributes redirectAttributes) {
         Optional<Vehicle> optionalVehicle = vehicleService.findById(id);
 
         if (optionalVehicle.isPresent()) {
@@ -97,7 +104,8 @@ public class VehicleController {
             redirectAttributes.addFlashAttribute("error", "Error: el vehículo con ID <b>"
                     + id + "</b> no existe en el sistema!");
         }
-        return "redirect:/vehicles";
+
+        return "redirect:/vehicles?page=" + page;
     }
 
 }

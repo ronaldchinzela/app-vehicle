@@ -74,15 +74,19 @@
           <td th:text="${vehicle.precio}" data-price></td>
           <td th:text="${vehicle.stock}"></td>
           <td th:text="${vehicle.createdAt}"></td>
-          <td><a class="btn btn-sm btn-primary" th:href="@{/vehicles/form/} + ${vehicle.id}">
-            <i class="fas fa-edit"></i> Editar</a></td>
+
+          <td><a class="btn btn-sm btn-primary" th:href="@{/vehicles/form/{id}(id=${vehicle.id}, page=${currentPage})}">
+            <i class="fas fa-edit"></i> Editar</a>
+          </td>
+
           <td>
             <a class="btn btn-sm btn-danger"
-               th:href="@{/vehicles/delete/} + ${vehicle.id}"
+               th:href="@{/vehicles/delete/{id}(id=${vehicle.id}, page=${currentPage})}"
                th:attr="onclick=|return confirmDelete('${vehicle.marca}', '${vehicle.modelo}', ${vehicle.id})|">
               <i class="fas fa-trash-alt"></i> Eliminar
             </a>
           </td>
+
         </tr>
         </tbody>
       </table>
