@@ -27,6 +27,7 @@ public class Vehicle {
 
     @NotEmpty(message = "El color no puede estar vacío")
     @Size(min = 3, max = 30, message = "El color debe tener entre 3 y 30 caracteres")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El color solo puede contener letras y espacios")
     private String color;
 
     @NotNull(message = "El precio no puede ser nulo")

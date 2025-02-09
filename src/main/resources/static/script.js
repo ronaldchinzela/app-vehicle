@@ -50,22 +50,22 @@ function loadPage(page) {
     $.ajax({
         url: '/vehicles?page=' + page + '&size=' + size,
         type: 'GET',
-        success: function(response) {
+        success: function (response) {
             $('#vehicle-table').html($(response).find('#vehicle-table').html());
             $('.pagination').html($(response).find('.pagination').html());
             formatAllPrices();
         },
-        error: function() {
+        error: function () {
             alert('Error cargando la página');
         }
     });
 }
 
 // EJECUTAR EL FORMATO AL CARGAR LA PÁGINA POR PRIMERA VEZ
-$(document).ready(function() {
+$(document).ready(function () {
     formatAllPrices();
 
-    $(document).on('click', '.pagination a', function(e) {
+    $(document).on('click', '.pagination a', function (e) {
         e.preventDefault();
         let page = $(this).data('page');
 
@@ -81,6 +81,11 @@ $(document).ready(function() {
 function confirmDelete(marca, modelo, id) {
     return confirm(`Está seguro que desea eliminar el vehículo ${marca} ${modelo} con ID ${id}?`);
 }
+
+//VALIDACIÓN PARA EVITAR LA ENTRADA DE CARACTERES NO PERMITIDOS EN EL CAMPO COLOR ANTES DE ENVIARLO AL BACKEND.
+document.getElementById("color").addEventListener("input", function () {
+    this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, '');
+});
 
 
 

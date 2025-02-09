@@ -56,7 +56,7 @@
             <div class="row mb-3">
                 <label for="marca" class="col-sm-1 col-form-label">Marca</label>
                 <div class="col-sm-5">
-                    <input type="text" th:field="*{marca}" id="marca" class="form-control"/>
+                    <input type="text" th:field="*{marca}" id="marca" class="form-control" required/>
                     <small th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="form-text text-danger"></small>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             <div class="row mb-3">
                 <label for="modelo" class="col-sm-1 col-form-label">Modelo</label>
                 <div class="col-sm-5">
-                    <input type="text" th:field="*{modelo}" id="modelo" class="form-control"/>
+                    <input type="text" th:field="*{modelo}" id="modelo" class="form-control" required/>
                     <small th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}" class="form-text text-danger"></small>
                 </div>
             </div>
@@ -72,7 +72,8 @@
             <div class="row mb-3">
                 <label for="color" class="col-sm-1 col-form-label">Color</label>
                 <div class="col-sm-5">
-                    <input type="text" th:field="*{color}" id="color" class="form-control"/>
+                    <input type="text" th:field="*{color}" id="color" class="form-control" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
+                           title="Solo se permiten letras y espacios" required/>
                     <small th:if="${#fields.hasErrors('color')}" th:errors="*{color}" class="form-text text-danger"></small>
                 </div>
             </div>
@@ -80,7 +81,7 @@
             <div class="row mb-3">
                 <label for="precio" class="col-sm-1 col-form-label">Precio</label>
                 <div class="col-sm-5">
-                    <input type="number" th:field="*{precio}" id="precio" class="form-control" step="0.01" min="0" placeholder="Ingrese el precio"/>
+                    <input type="number" th:field="*{precio}" id="precio" class="form-control" step="0.01" min="0" placeholder="Ingrese el precio" required/>
                     <small th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="form-text text-danger"></small>
                 </div>
             </div>
@@ -88,7 +89,7 @@
             <div class="row mb-3">
                 <label for="stock" class="col-sm-1 col-form-label">Stock</label>
                 <div class="col-sm-5">
-                    <input type="number" th:field="*{stock}" id="stock" class="form-control" step="1" min="0" placeholder="Ingrese el stock disponible"/>
+                    <input type="number" th:field="*{stock}" id="stock" class="form-control" step="1" min="0" placeholder="Ingrese el stock disponible" required/>
                     <small th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="form-text text-danger"></small>
                 </div>
             </div>
