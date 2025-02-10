@@ -24,14 +24,14 @@
 
 .alert-success {
     background: linear-gradient(to right,
-    rgba(0, 128, 70, 1) 0%,  /* Verde sólido */
+    rgba(0, 128, 70, 1) 0%,
     rgba(0, 128, 70, 0.95) 40%,
     rgba(0, 128, 70, 0.85) 55%,
     rgba(0, 128, 70, 0.7) 70%,
     rgba(0, 128, 70, 0.5) 80%,
     rgba(0, 128, 70, 0.35) 90%,
-    rgba(0, 128, 70, 0.25) 98%,  /* Mantiene algo de color en el extremo */
-    rgba(0, 128, 70, 0.19) 100%  /* No desaparece del todo */
+    rgba(0, 128, 70, 0.25) 98%,
+    rgba(0, 128, 70, 0.19) 100%
     );
     border: none;
 }

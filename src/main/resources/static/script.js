@@ -82,6 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//MANEJO DE ELIMINACIÓN CON AJAX
+
 
 
 
