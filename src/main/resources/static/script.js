@@ -1,27 +1,17 @@
 //TIEMPO DE 6 SEGUNDOS PARA QUE DESPAREZCA EL DIV DEL ALERT
 document.addEventListener("DOMContentLoaded", function () {
+    const alertSuccess = document.getElementById("success-alert");
 
-    const errorAlert = document.getElementById("error-alert");
-    const successAlert = document.getElementById("success-alert");
-
-    const fadeOutAlert = (alertElement) => {
-        alertElement.style.opacity = "0";
-        alertElement.style.backgroundColor = "#f8d7da";
-
+    if (alertSuccess) {
         setTimeout(() => {
-            alertElement.style.display = "none";
-        }, 1000);
-    };
+            alertSuccess.style.opacity = "1";
 
-    if (errorAlert) {
-        setTimeout(() => {
-            fadeOutAlert(errorAlert);
-        }, 5000);
-    }
-
-    if (successAlert) {
-        setTimeout(() => {
-            fadeOutAlert(successAlert);
+            setTimeout(() => {
+                alertSuccess.style.opacity = "0";
+                setTimeout(() => {
+                    alertSuccess.style.display = "none";
+                }, 3000);
+            }, 2000);
         }, 5000);
     }
 });
@@ -83,8 +73,13 @@ function confirmDelete(marca, modelo, id) {
 }
 
 //VALIDACIÓN PARA EVITAR LA ENTRADA DE CARACTERES NO PERMITIDOS EN EL CAMPO COLOR ANTES DE ENVIARLO AL BACKEND.
-document.getElementById("color").addEventListener("input", function () {
-    this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, '');
+document.addEventListener("DOMContentLoaded", function () {
+    let colorInput = document.getElementById("color");
+    if (colorInput) {
+        colorInput.addEventListener("input", function () {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, '');
+        });
+    }
 });
 
 

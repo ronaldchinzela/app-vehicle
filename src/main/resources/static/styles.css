@@ -1,5 +1,39 @@
+.alert-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 9px;
+}
+
 .alert {
-    transition: opacity 1s ease, background-color 1s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: unset;
+    padding: 15px 40px;
+    color: white;
+    transition: opacity 3s ease;
+    border-radius: 0;
+    text-align: left;
+    white-space: nowrap;
+    display: block;
+    border: none;
+}
+
+.alert-success {
+    background: linear-gradient(to right,
+    rgba(0, 128, 70, 1) 0%,  /* Verde sólido */
+    rgba(0, 128, 70, 0.95) 40%,
+    rgba(0, 128, 70, 0.85) 55%,
+    rgba(0, 128, 70, 0.7) 70%,
+    rgba(0, 128, 70, 0.5) 80%,
+    rgba(0, 128, 70, 0.35) 90%,
+    rgba(0, 128, 70, 0.25) 98%,  /* Mantiene algo de color en el extremo */
+    rgba(0, 128, 70, 0.19) 100%  /* No desaparece del todo */
+    );
+    border: none;
 }
 
 html, body {
@@ -89,6 +123,7 @@ html, body {
         min-width: 800px;
     }
 }
+
 
 
 

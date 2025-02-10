@@ -75,12 +75,14 @@ public class VehicleController {
             return "form";
         }
 
+        boolean isNew = (vehicle.getId() == null || vehicle.getId() == 0);
+
         vehicleService.save(vehicle);
         status.setComplete();
 
-        String message = (vehicle.getId() != null && vehicle.getId() > 0)
-                ? "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> con ID <b>" + vehicle.getId() + "</b> se ha actualizado con éxito!"
-                : "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> se ha creado con éxito!";
+        String message = isNew
+                ? "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> se ha creado con éxito!"
+                : "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> con ID <b>" + vehicle.getId() + "</b> se ha actualizado con éxito!";
 
         redirectAttributes.addFlashAttribute("success", message);
         return "redirect:/vehicles?page=" + page;
