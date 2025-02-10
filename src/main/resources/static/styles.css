@@ -123,6 +123,41 @@ html, body {
         min-width: 800px;
     }
 }
+/* Ajuste responsivo para alertas en móviles */
+@media (max-width: 576px) {
+    .alert {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        white-space: normal;
+        padding: 10px 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .table-container {
+        margin-top: 50px;
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 576px) {
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .table th, .table td {
+        white-space: nowrap; 
+    }
+}
+
+
 
 
 
