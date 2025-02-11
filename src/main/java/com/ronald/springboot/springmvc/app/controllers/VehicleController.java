@@ -29,7 +29,13 @@ public class VehicleController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size,
             Model model) {
+
         Page<Vehicle> vehiclesPage = vehicleService.findAllPaginated(page, size);
+
+        if (vehiclesPage.isEmpty() && page > 0) {
+            return "redirect:/vehicles?page=" + (page - 1);
+        }
+
         model.addAttribute("title", "Listado de vehículos");
         model.addAttribute("vehicles", vehiclesPage.getContent());
         model.addAttribute("currentPage", page);
@@ -103,8 +109,7 @@ public class VehicleController {
                     + "</b> ha sido eliminado con éxito!");
             vehicleService.delete(id);
         } else {
-            redirectAttributes.addFlashAttribute("error", "Error: el vehículo con ID <b>"
-                    + id + "</b> no existe en el sistema!");
+            redirectAttributes.addFlashAttribute("error", "Error: No se encontró un vehículo con ID <b>" + id + "</b> en el sistema!");
         }
 
         return "redirect:/vehicles?page=" + page;

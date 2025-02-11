@@ -39,7 +39,7 @@
 </nav>
 
 <div class="alert-container">
-  <div class="alert alert-danger" id="error-alert" th:if="${error != null}" th:text="${error}"></div>
+  <div class="alert alert-danger" id="error-alert" th:if="${error != null}" th:utext="${error}"></div>
   <div class="alert alert-success" id="success-alert" th:if="${success != null}" th:utext="${success}"></div>
 </div>
 
@@ -49,7 +49,10 @@
 
     <a th:href="@{/vehicles/form}" class="btn btn-secondary mt-2">
       <i class="fas fa-car"></i> Crear Vehículo</a>
-    <div th:text="'No hay vehículos en el sistema!'" th:if="${#lists.isEmpty(vehicles)}"></div>
+
+    <div th:if="${totalElements == 0}" class="no-vehicles-message">
+      <i class="fas fa-exclamation-triangle"></i> No hay vehículos en el sistema!
+    </div>
 
     <div class="table-container mt-4">
       <div id="vehicle-table">

@@ -1,19 +1,23 @@
 //TIEMPO DE 6 SEGUNDOS PARA QUE DESPAREZCA EL DIV DEL ALERT
 document.addEventListener("DOMContentLoaded", function () {
-    const alertSuccess = document.getElementById("success-alert");
+    const alerts = ["success-alert", "error-alert"];
 
-    if (alertSuccess) {
-        setTimeout(() => {
-            alertSuccess.style.opacity = "1";
+    alerts.forEach(alertId => {
+        const alertElement = document.getElementById(alertId);
 
+        if (alertElement) {
             setTimeout(() => {
-                alertSuccess.style.opacity = "0";
+                alertElement.style.opacity = "1";
+
                 setTimeout(() => {
-                    alertSuccess.style.display = "none";
-                }, 3000);
-            }, 2000);
-        }, 5000);
-    }
+                    alertElement.style.opacity = "0";
+                    setTimeout(() => {
+                        alertElement.style.display = "none";
+                    }, 3000);
+                }, 2000);
+            }, 5000);
+        }
+    });
 });
 
 // FUNCIÓN PARA DAR FORMATO A LOS PRECIOS CON EL SÍMBOLO US$
