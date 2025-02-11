@@ -24,6 +24,13 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
+    /**
+     * Método para listar los vehículos con paginación.
+     * @param page número de la página actual (por defecto 0).
+     * @param size cantidad de vehículos por página (por defecto 15).
+     * @param model modelo de Spring para pasar datos a la vista.
+     * @return la vista "list" con la lista de vehículos.
+     */
     @GetMapping
     public String list(
             @RequestParam(defaultValue = "0") int page,
@@ -44,8 +51,12 @@ public class VehicleController {
 
         return "list";
     }
-    
-    //Crear vehículo
+
+    /**
+     * Método para mostrar el formulario de creación de un nuevo vehículo.
+     * @param model modelo de Spring para pasar datos a la vista.
+     * @return la vista "form" con un nuevo objeto Vehicle vacío.
+     */
     @GetMapping("/form")
     public String form(Model model){
         model.addAttribute("vehicle", new Vehicle());
@@ -53,7 +64,14 @@ public class VehicleController {
         return "form";
     }
 
-    //Editar vehículo
+    /**
+     * Método para mostrar el formulario de edición de un vehículo existente.
+     * @param id identificador del vehículo a editar.
+     * @param page número de la página actual para mantener la navegación.
+     * @param model modelo de Spring para pasar datos a la vista.
+     * @param redirectAttributes atributos para mensajes de redirección.
+     * @return la vista "form" si el vehículo existe, de lo contrario, redirige a la lista de vehículos.
+     */
     @GetMapping("/form/{id}")
     public String form(@PathVariable Long id,
                        @RequestParam(defaultValue = "0") int page,
@@ -71,6 +89,18 @@ public class VehicleController {
         }
     }
 
+    /**
+     * Guarda un vehículo en la base de datos (creación o actualización).
+     * Este método valida los datos del formulario y guarda un nuevo vehículo o actualiza uno existente.
+     * Si el vehículo es nuevo, genera automáticamente un código de registro basado en la marca y el modelo.
+     * @param vehicle objeto Vehicle validado desde el formulario.
+     * @param result resultado de la validación del formulario.
+     * @param page número de la página actual.
+     * @param model modelo de Spring para pasar datos a la vista.
+     * @param redirectAttributes atributos para mensajes de redirección.
+     * @param status estado de la sesión para completar la transacción.
+     * @return redirección a la lista de vehículos si la operación es exitosa, de lo contrario, vuelve al formulario.
+     */
     @PostMapping
     public String form(@Valid Vehicle vehicle, BindingResult result,
                        @RequestParam(defaultValue = "0") int page,
@@ -83,17 +113,39 @@ public class VehicleController {
 
         boolean isNew = (vehicle.getId() == null || vehicle.getId() == 0);
 
+        String newCodigoRegistro = generateCodigoRegistro(vehicle);
+        vehicle.setCodigoRegistro(newCodigoRegistro);
+
         vehicleService.save(vehicle);
         status.setComplete();
 
         String message = isNew
                 ? "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> se ha creado con éxito!"
-                : "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> con ID <b>" + vehicle.getId() + "</b> se ha actualizado con éxito!";
+                : "El vehículo <b>" + vehicle.getMarca() + " " + vehicle.getModelo() + "</b> de código <b>" + vehicle.getCodigoRegistro() + "</b> se ha actualizado con éxito!";
 
         redirectAttributes.addFlashAttribute("success", message);
         return "redirect:/vehicles?page=" + page;
     }
 
+    /**
+     * Genera un código de registro único para el vehículo.
+     * El código de registro se genera utilizando la primera letra de la marca y del modelo, seguido de un número secuencial basado en el ID.
+     * @param vehicle el vehículo para el que se generará el código de registro.
+     * @return el código de registro generado.
+     */
+    private String generateCodigoRegistro(Vehicle vehicle) {
+        return vehicle.getMarca().substring(0, 1).toUpperCase() +
+                vehicle.getModelo().substring(0, 1).toUpperCase() +
+                "0" + vehicle.getId();
+    }
+
+    /**
+     * Método para eliminar un vehículo por su ID.
+     * @param id identificador del vehículo a eliminar.
+     * @param page número de la página actual.
+     * @param redirectAttributes atributos para mensajes de redirección.
+     * @return redirección a la lista de vehículos con un mensaje de éxito o error.
+     */
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id,
                          @RequestParam(defaultValue = "0") int page,
@@ -105,13 +157,12 @@ public class VehicleController {
             redirectAttributes.addFlashAttribute("success", "El vehículo <b>"
                     + vehicle.getMarca() + " "
                     + vehicle.getModelo()
-                    + "</b> con ID <b>" + id
+                    + "</b> de código <b>" + vehicle.getCodigoRegistro()
                     + "</b> ha sido eliminado con éxito!");
             vehicleService.delete(id);
         } else {
-            redirectAttributes.addFlashAttribute("error", "Error: No se encontró un vehículo con ID <b>" + id + "</b> en el sistema!");
+            redirectAttributes.addFlashAttribute("error", "Error: El vehículo seleccionado no se encontró en el sistema.");
         }
-
         return "redirect:/vehicles?page=" + page;
     }
 

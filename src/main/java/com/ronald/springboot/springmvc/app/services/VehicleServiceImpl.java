@@ -40,7 +40,9 @@ public class VehicleServiceImpl implements VehicleService {
     @Transactional
     @Override
     public void save(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+        savedVehicle.generarCodigoRegistro();
+        vehicleRepository.save(savedVehicle);
     }
 
     @Transactional

@@ -16,9 +16,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand custom-title" th:href="@{/vehicles}">CarControl</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -34,6 +36,13 @@
           <a class="nav-link" th:href="@{/vehicles}">Facturas</a>
         </li>
       </ul>
+
+      <div class="ms-auto">
+        <a class="nav-link text-white" href="#" onclick="location.reload();">
+          <i class="fas fa-user"></i> Iniciar Sesión
+        </a>
+      </div>
+
     </div>
   </div>
 </nav>
@@ -59,7 +68,8 @@
       <table class="table table-hover table-striped" th:if="${not #lists.isEmpty(vehicles)}">
         <thead>
         <tr>
-          <th>ID</th>
+          <th>#</th>
+          <th>CÓDIGO</th>
           <th>MARCA</th>
           <th>MODELO</th>
           <th>COLOR</th>
@@ -71,8 +81,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="vehicle: ${vehicles}">
-          <td th:text="${vehicle.id}"></td>
+        <tr th:each="vehicle, vehicleStat : ${vehicles}">
+          <td th:text="${currentPage * 15 + vehicleStat.index + 1}"></td>
+          <td th:text="${vehicle.codigoRegistro}"></td>
           <td th:text="${vehicle.marca}"></td>
           <td th:text="${vehicle.modelo}"></td>
           <td th:text="${vehicle.color}"></td>
@@ -87,7 +98,7 @@
           <td>
             <a class="btn btn-sm btn-danger"
                th:href="@{/vehicles/delete/{id}(id=${vehicle.id}, page=${currentPage})}"
-               th:attr="onclick=|return confirmDelete('${vehicle.marca}', '${vehicle.modelo}', ${vehicle.id})|">
+               th:attr="onclick=|return confirmDelete('${vehicle.marca}', '${vehicle.modelo}', '${vehicle.codigoRegistro}')|">
               <i class="fas fa-trash-alt"></i> Eliminar
             </a>
           </td>

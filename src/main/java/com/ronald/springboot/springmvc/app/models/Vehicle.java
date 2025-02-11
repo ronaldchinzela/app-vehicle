@@ -1,12 +1,6 @@
 package com.ronald.springboot.springmvc.app.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -30,6 +24,9 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "codigo_registro", length = 10, unique = true)
+    private String codigoRegistro;
 
     @NotEmpty(message = "La marca no puede estar vacía")
     @Size(min = 2, max = 50, message = "La marca debe tener entre 2 y 50 caracteres")
@@ -58,6 +55,13 @@ public class Vehicle {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        generarCodigoRegistro();
+    }
+
+    public void generarCodigoRegistro() {
+        if (this.marca != null && this.modelo != null && this.id != null) {
+            this.codigoRegistro = (this.marca.charAt(0) + "" + this.modelo.charAt(0) + "0" + this.id).toUpperCase();
+        }
     }
 
 }

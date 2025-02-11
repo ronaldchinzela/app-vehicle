@@ -72,8 +72,8 @@ $(document).ready(function () {
 });
 
 //EJECUTAR MENSAJE ESTRUCTURADO EN CONFIRM AL MOMENTO DE ELIMINAR UNB VEHÍCULO:
-function confirmDelete(marca, modelo, id) {
-    return confirm(`Está seguro que desea eliminar el vehículo ${marca} ${modelo} con ID ${id}?`);
+function confirmDelete(marca, modelo, codigoRegistro) {
+    return confirm(`Está seguro que desea eliminar el vehículo ${marca} ${modelo} de código ${codigoRegistro}?`);
 }
 
 //VALIDACIÓN PARA EVITAR LA ENTRADA DE CARACTERES NO PERMITIDOS EN EL CAMPO COLOR ANTES DE ENVIARLO AL BACKEND.
@@ -85,8 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-//MANEJO DE ELIMINACIÓN CON AJAX
 
 
 
